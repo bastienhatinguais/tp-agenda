@@ -11,6 +11,7 @@ public class RepetitiveEvent extends Event {
 
     private ChronoUnit frequency;
     private ArrayList<LocalDate> lesExceptions = new ArrayList<>();
+
     /**
      * Constructs a repetitive event
      *
@@ -37,17 +38,27 @@ public class RepetitiveEvent extends Event {
     public void addException(LocalDate date) {
         lesExceptions.add(date);
     }
-/*
+
+    //faire par frequency
     public boolean isInDay(LocalDate aDay) {
         boolean isInDay = false;
-        isInDay = myStart.toLocalDate().equals(aDay);
-        LocalDateTime theEnd = myStart.plus(myDuration);
+        LocalDateTime theEnd = this.getStart().plus(getDuration());
+        if (this.getStart().toLocalDate().equals(aDay)) {
+            isInDay = true;
+        }
+
         if (theEnd.toLocalDate().equals(aDay)) {
             isInDay = true;
         }
+        for (LocalDate date : lesExceptions) {
+            if (aDay.equals(date)) {
+                isInDay = false;
+            }
+
+        }
         return isInDay;
     }
-    
+
     /**
      *
      * @return the type of repetition
