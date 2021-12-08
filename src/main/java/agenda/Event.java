@@ -5,14 +5,14 @@ import java.time.*;
 public class Event {
 
     private String myTitle;
-    private LocalDateTime myStart;
-    private Duration myDuration;
+    protected LocalDateTime myStart;
+    protected Duration myDuration;
 
     /**
      * Constructs an event
      *
-     * @param title the title of this event
-     * @param start the start time of this event
+     * @param title    the title of this event
+     * @param start    the start time of this event
      * @param duration the duration of this event
      */
     public Event(String title, LocalDateTime start, Duration duration) {

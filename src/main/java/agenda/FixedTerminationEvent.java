@@ -31,6 +31,7 @@ public class FixedTerminationEvent extends RepetitiveEvent {
     public FixedTerminationEvent(String title, LocalDateTime start, Duration duration, ChronoUnit frequency,
             LocalDate terminationInclusive) {
         super(title, start, duration, frequency);
+        this.numberOfOccurrences = frequency.between(start.toLocalDate(), terminationInclusive) + 1;
         this.terminationDate = terminationInclusive;
     }
 
@@ -51,7 +52,24 @@ public class FixedTerminationEvent extends RepetitiveEvent {
     public FixedTerminationEvent(String title, LocalDateTime start, Duration duration, ChronoUnit frequency,
             long numberOfOccurrences) {
         super(title, start, duration, frequency);
+        this.terminationDate = start.plus(numberOfOccurrences - 1, frequency).toLocalDate();
         this.numberOfOccurrences = numberOfOccurrences;
+    }
+
+    /**
+     * Tests if an event occurs on a given day
+     *
+     * @param aDay the day to test
+     * @return true if the event occurs on that day, false otherwise
+     */
+    public boolean isInDay(LocalDate aDay) {
+        boolean isInDay = false;
+        isInDay = myStart.toLocalDate().equals(aDay);
+        LocalDateTime theEnd = myStart.plus(myDuration);
+        if (theEnd.toLocalDate().equals(aDay)) {
+            isInDay = true;
+        }
+        return isInDay;
     }
 
     /**
