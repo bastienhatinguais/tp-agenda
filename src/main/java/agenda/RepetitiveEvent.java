@@ -15,15 +15,15 @@ public class RepetitiveEvent extends Event {
     /**
      * Constructs a repetitive event
      *
-     * @param title the title of this event
-     * @param start the start of this event
-     * @param duration myDuration in seconds
+     * @param title     the title of this event
+     * @param start     the start of this event
+     * @param duration  myDuration in seconds
      * @param frequency one of :
-     * <UL>
-     * <LI>ChronoUnit.DAYS for daily repetitions</LI>
-     * <LI>ChronoUnit.WEEKS for weekly repetitions</LI>
-     * <LI>ChronoUnit.MONTHS for monthly repetitions</LI>
-     * </UL>
+     *                  <UL>
+     *                  <LI>ChronoUnit.DAYS for daily repetitions</LI>
+     *                  <LI>ChronoUnit.WEEKS for weekly repetitions</LI>
+     *                  <LI>ChronoUnit.MONTHS for monthly repetitions</LI>
+     *                  </UL>
      */
     public RepetitiveEvent(String title, LocalDateTime start, Duration duration, ChronoUnit frequency) {
         super(title, start, duration);
@@ -39,21 +39,34 @@ public class RepetitiveEvent extends Event {
         lesExceptions.add(date);
     }
 
-    //faire par frequency
     public boolean isInDay(LocalDate aDay) {
-        boolean isInDay = false;
-        LocalDateTime theEnd = this.getStart().plus(getDuration());
-        if (this.getStart().toLocalDate().equals(aDay)) {
-            isInDay = true;
-        }
+        LocalDate theEnd = this.getStart().plus(myDuration).toLocalDate();
+        if (aDay.isBefore(myStart.toLocalDate()))
+            return false;
 
-        if (theEnd.toLocalDate().equals(aDay)) {
-            isInDay = true;
-        }
-        for (LocalDate date : lesExceptions) {
-            if (aDay.equals(date)) {
+        if (lesExceptions.contains(aDay))
+            return false;
+
+        boolean isInDay = false;
+        switch (frequency) {
+            case DAYS:
+                isInDay = true;
+                break;
+            case WEEKS:
+                if (myStart.getDayOfWeek().getValue() <= aDay.getDayOfWeek().getValue() && theEnd.getDayOfWeek()
+                        .getValue() >= aDay.getDayOfWeek().getValue())
+                    isInDay = true;
+                else
+                    isInDay = false;
+                break;
+            case MONTHS:
+                if (myStart.getDayOfMonth() <= aDay.getDayOfMonth() && theEnd.getDayOfMonth() >= aDay.getDayOfMonth())
+                    isInDay = true;
+                else
+                    isInDay = false;
+                break;
+            default:
                 isInDay = false;
-            }
 
         }
         return isInDay;
