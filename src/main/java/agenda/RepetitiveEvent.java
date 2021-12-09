@@ -53,14 +53,23 @@ public class RepetitiveEvent extends Event {
                 isInDay = true;
                 break;
             case WEEKS:
-                if (myStart.getDayOfWeek().getValue() <= aDay.getDayOfWeek().getValue() && theEnd.getDayOfWeek()
-                        .getValue() >= aDay.getDayOfWeek().getValue())
+                int startDayOfWeek = myStart.getDayOfWeek().getValue();
+                int theEndDayOfWeek = theEnd.getDayOfWeek().getValue();
+                if (theEndDayOfWeek < startDayOfWeek)
+                    theEndDayOfWeek += 7;
+                int aDayOfWeek = aDay.getDayOfWeek().getValue();
+                if (startDayOfWeek <= aDayOfWeek && theEndDayOfWeek >= aDayOfWeek)
                     isInDay = true;
                 else
                     isInDay = false;
                 break;
             case MONTHS:
-                if (myStart.getDayOfMonth() <= aDay.getDayOfMonth() && theEnd.getDayOfMonth() >= aDay.getDayOfMonth())
+                int startDayOfMonth = myStart.getDayOfMonth();
+                int theEndDayOfMonth = theEnd.getDayOfMonth();
+                if (theEndDayOfMonth < startDayOfMonth)
+                    theEndDayOfMonth += 31;
+                int aDayOfMonth = aDay.getDayOfMonth();
+                if (startDayOfMonth <= aDayOfMonth && theEndDayOfMonth >= aDayOfMonth)
                     isInDay = true;
                 else
                     isInDay = false;

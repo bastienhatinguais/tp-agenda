@@ -66,5 +66,4 @@ public class Event {
         return "Event{" + "myTitle=" + myTitle + ", myStart=" + myStart + ", myDuration=" + myDuration + '}';
     }
 
-    
 }

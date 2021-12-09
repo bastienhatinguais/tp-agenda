@@ -63,13 +63,11 @@ public class FixedTerminationEvent extends RepetitiveEvent {
      * @return true if the event occurs on that day, false otherwise
      */
     public boolean isInDay(LocalDate aDay) {
-        boolean isInDay = false;
-        isInDay = myStart.toLocalDate().equals(aDay);
-        LocalDateTime theEnd = myStart.plus(myDuration);
-        if (theEnd.toLocalDate().equals(aDay)) {
-            isInDay = true;
+        if (aDay.isAfter(terminationDate))
+            return false;
+        else {
+            return super.isInDay(aDay);
         }
-        return isInDay;
     }
 
     /**
